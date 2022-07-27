@@ -14,7 +14,7 @@ class UserModel{
 class UserScreen extends StatelessWidget {
 
   List<UserModel> users = [
-    UserModel(id: 1, name: 'Kareem Taha Abdelfatah', phone: 0120178),
+    UserModel(id: 1, name: 'Kareem Taha Abdelfatah', phone: 010178),
     UserModel(id: 2, name: 'Omnia Taha Abdelfatah', phone: 0128178),
     UserModel(id: 3, name: 'Salma Taha Abdelfatah', phone: 010781),
     UserModel(id: 4, name: 'Kareem Taha Abdelfatah', phone: 0128178),
