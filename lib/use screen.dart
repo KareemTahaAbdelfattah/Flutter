@@ -14,18 +14,18 @@ class UserModel{
 class UserScreen extends StatelessWidget {
 
   List<UserModel> users = [
-    UserModel(id: 1, name: 'Kareem Taha Abdelfatah', phone: 010178),
-    UserModel(id: 2, name: 'Omnia Taha Abdelfatah', phone: 0128178),
-    UserModel(id: 3, name: 'Salma Taha Abdelfatah', phone: 010781),
-    UserModel(id: 4, name: 'Kareem Taha Abdelfatah', phone: 0128178),
-    UserModel(id: 5, name: 'Omnia Taha Abdelfatah', phone: 0128178),
-    UserModel(id: 6, name: 'Salma Taha Abdelfatah', phone: 0101781),
-    UserModel(id: 7, name: 'Salma Taha Abdelfatah', phone: 0101781),
-    UserModel(id: 8, name: 'Kareem Taha Abdelfatah', phone: 018178),
-    UserModel(id: 9, name: 'Omnia Taha Abdelfatah', phone: 018178),
-    UserModel(id: 10, name: 'Omnia Taha Abdelfatah', phone: 0158178),
-    UserModel(id: 11, name: 'Salma Taha Abdelfatah', phone: 0108781),
-    UserModel(id: 12, name: 'Kareem Taha Abdelfatah', phone: 018178),
+    UserModel(id: 1, name: 'Kareem Taha ', phone: 010178),
+    UserModel(id: 2, name: 'Kimo Taha ', phone: 0128178),
+    UserModel(id: 3, name: 'Salem Taha ', phone: 010781),
+    UserModel(id: 4, name: 'Kareem Taha', phone: 0128178),
+    UserModel(id: 5, name: 'Ramy Taha', phone: 0128178),
+    UserModel(id: 6, name: 'Salem Tah', phone: 0101781),
+    UserModel(id: 7, name: 'Salem Taha', phone: 0101781),
+    UserModel(id: 8, name: 'Kareem Tah', phone: 018178),
+    UserModel(id: 9, name: 'Ramy Taha ', phone: 018178),
+    UserModel(id: 10, name: 'Ramy Taha ', phone: 0158178),
+    UserModel(id: 11, name: 'Salem Taha ', phone: 0108781),
+    UserModel(id: 12, name: 'Kareem Taha ', phone: 018178),
 
   ];
 
