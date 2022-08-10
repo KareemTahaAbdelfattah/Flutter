@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:untitled/shared/components/components.dart';
 
 class loginscreen extends StatelessWidget
 {
@@ -78,25 +79,10 @@ class loginscreen extends StatelessWidget
                 SizedBox(
                   height: 10.0,
                 ),
-                Container(
-                  color: Colors.blue,
-                  width: double.infinity,
-                  child: MaterialButton(
-                    onPressed: (){
-                      print(emailaddress.text);
-                      print(Password.text);
-                    },
-                    child: Center(
-                      child: Text(
-                        'Login',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                defaultButton(text: 'login', function: (){
+                  print(emailaddress.text);
+                  print(Password.text);
+                }),
                 SizedBox(
                   height: 10.0,
                 ),
