@@ -2,11 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:untitled/shared/components/components.dart';
 
-class loginscreen extends StatelessWidget
+class loginscreen extends StatefulWidget
 {
 
+  @override
+  State<loginscreen> createState() => _loginscreenState();
+}
+
+class _loginscreenState extends State<loginscreen> {
   var emailaddress = TextEditingController();
+
   var Password = TextEditingController();
+
+  var formkey = GlobalKey<FormState>();
+
+  bool isPassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -33,73 +43,98 @@ class loginscreen extends StatelessWidget
         padding: const EdgeInsets.all(20.0),
         child: Center(
           child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment : CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Login',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 50.0,
-                    fontWeight: FontWeight.bold,
+            child: Form(
+              key: formkey,
+              child: Column(
+                crossAxisAlignment : CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Login',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 50.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 30.0,
-                ),
-                TextFormField(
-                  controller: emailaddress,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    labelText: 'Email Address',
-                    prefixIcon: Icon(
-                      Icons.email,
-                    ),
-                    border: OutlineInputBorder(),
+                  SizedBox(
+                    height: 30.0,
                   ),
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                TextFormField(
-                  controller: Password,
-                  keyboardType: TextInputType.visiblePassword,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    prefixIcon: Icon(
-                      Icons.lock,
-                    ),
-                    suffixIcon: Icon(
-                      Icons.remove_red_eye,
-                    ),
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                defaultButton(text: 'login', function: (){
-                  print(emailaddress.text);
-                  print(Password.text);
-                }),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      'Don\'t have an account?',
-                    ),
-                    TextButton(onPressed: (){
-                      print('You haven\'t an account');
+                  TextFormField(
+                    controller: emailaddress,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value)
+                    {
+                      if(value!.isEmpty)
+                      {
+                        return 'Email address is not valid';
+                      }
+                      return null;
                     },
-                      child: Text(
-                        'Register',
-                      ), ),
-                  ],
-                ),
-              ],
+                    decoration: InputDecoration(
+                      labelText: 'Email Address',
+                      prefixIcon: Icon(
+                        Icons.email,
+                      ),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  TextFormField(
+                    controller: Password,
+                    keyboardType: TextInputType.visiblePassword,
+                    obscureText: isPassword,
+                    validator: (value)
+                    {
+                      if(value!.isEmpty)
+                      {
+                        return 'Password is not valid';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      prefixIcon: Icon(
+                        Icons.lock,
+                      ),
+                      suffixIcon: IconButton(onPressed: (){
+                          setState(() {
+                            isPassword = !isPassword;
+                          });
+                      }, icon: Icon(
+                        isPassword ? Icons.visibility : Icons.visibility_off,
+                      ),),
+                      border: OutlineInputBorder(),
+                      ),
+                    ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  defaultButton(text: 'login', function: (){
+                    if(formkey.currentState!.validate()){
+                      print(emailaddress.text);
+                      print(Password.text);
+                    }
+                  }),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'Don\'t have an account?',
+                      ),
+                      TextButton(onPressed: (){
+                        print('You haven\'t an account');
+                      },
+                        child: Text(
+                          'Register',
+                        ), ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
