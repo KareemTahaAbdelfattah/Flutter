@@ -108,7 +108,7 @@ class _TodoScreenState extends State<TodoScreen> {
                     (context) => Container(
                       color: Colors.grey[100],
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(10.0),
                         child: SingleChildScrollView(
                           child: Form(
                             key: FormKey,
