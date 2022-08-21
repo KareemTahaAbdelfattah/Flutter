@@ -1,6 +1,6 @@
-# untitled
+# Flutter
 
-A new Flutter project.
+Flutter Applications.
 
 ## Getting Started
 
