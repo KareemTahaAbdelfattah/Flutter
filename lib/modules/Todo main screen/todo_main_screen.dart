@@ -5,6 +5,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:untitled/modules/todo_archived/todo_archiveds.dart';
 import 'package:untitled/modules/todo_done/todo_done.dart';
 import 'package:untitled/modules/todo_tasks/todo_tasks.dart';
+import '../../shared/components/constants.dart';
 
 
 
@@ -82,7 +83,7 @@ class _TodoScreenState extends State<TodoScreen> {
           ),
         ],
       ),
-      body: Screens[CurrentIndex],
+      body: tasks.length == 0 ? Center(child: CircularProgressIndicator()) : Screens[CurrentIndex],
       floatingActionButton: FloatingActionButton(
         onPressed: ()
         {
@@ -93,7 +94,7 @@ class _TodoScreenState extends State<TodoScreen> {
               InsertDatabase(
                   title: titleController.text,
                   time: timeController.text,
-                  date: dateController.text,
+                  data: dateController.text,
               ).then((value)
               {
                 Navigator.pop(context);
@@ -155,7 +156,7 @@ class _TodoScreenState extends State<TodoScreen> {
                                     {
                                       return 'Time must not be empty';
                                     }
-                                    return null;
+                                    //return null;
                                   },
                                   decoration: InputDecoration(
                                     labelText: 'Task Time',
@@ -192,10 +193,10 @@ class _TodoScreenState extends State<TodoScreen> {
                                     {
                                       return 'Data must not be empty';
                                     }
-                                    return null;
+                                    //return null;
                                   },
                                   decoration: InputDecoration(
-                                    labelText: 'Task Data',
+                                    labelText: 'Task Date',
                                     prefixIcon: Icon(
                                       Icons.calendar_today,
                                     ),
@@ -208,7 +209,13 @@ class _TodoScreenState extends State<TodoScreen> {
                         ),
                       ),
                     ),
-            );
+            ).closed.then((value)
+            {
+              isBottomSheet = false;
+              setState(() {
+                fabIcon = Icons.add;
+              },);
+            });
             isBottomSheet = true;
             setState(() {
               fabIcon = Icons.remove;
@@ -256,11 +263,6 @@ class _TodoScreenState extends State<TodoScreen> {
     );
   }
 
-  Future<String> getName() async
-  {
-    return 'Kareem Taha';
-  }
-
   void CreateDatabase() async
   {
       database = await openDatabase(
@@ -269,7 +271,7 @@ class _TodoScreenState extends State<TodoScreen> {
       onCreate: (database, version)
       {
         print("database created");
-        database.execute('CREATE TABLE tasks(id INTEGER PRIMARY KEY, title TEXT, date TEXT, time TEXT, status TEXT)').then((value)
+        database.execute('CREATE TABLE tasks(id INTEGER PRIMARY KEY, title TEXT, time TEXT, data TEXT, status TEXT)').then((value)
         {
           print("table creating");
         },).catchError((error)
@@ -279,6 +281,13 @@ class _TodoScreenState extends State<TodoScreen> {
       },
       onOpen: (database)
       {
+        GetDataFromDataBase(database).then((value)
+        {
+          setState(() {
+            tasks = value;
+            print(value);
+          });
+        },);
         print("database opened");
       },
     );
@@ -287,20 +296,22 @@ class _TodoScreenState extends State<TodoScreen> {
   Future InsertDatabase(
   {
     @required String? title,
-    @required String? date,
     @required String? time,
+    @required String? data,
   }) async
   {
-    return await database!.transaction((txn)
-    {
-      txn.rawInsert('INSERT INTO tasks(title, data, time, status) VALUES("$title", "$time", "$date", "new")').then((value)
+    return await database?.transaction((txn)
+    => txn.rawInsert('INSERT INTO tasks(title, time, data, status) VALUES("$title", "$time", "$data", "new")').then((value)
       {
         print("$value successfully inserted");
       },).catchError((error)
       {
         print("error at inserted ${error.toString()}");
-      },);
-      return null!;
-    },);
+      },),);
+  }
+
+  Future<List<Map>> GetDataFromDataBase(database) async
+  {
+    return await database?.rawQuery('SELECT * FROM tasks');
   }
 }
