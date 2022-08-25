@@ -42,19 +42,19 @@ class TodoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppCubit cubit = AppCubit.get(context);
+    //AppCubit cubit = AppCubit.get(context);
     return BlocProvider(
       create: (BuildContext context) => AppCubit(),
       child: BlocConsumer<AppCubit, AppStates>(
-        listener: (context, state) {},
-        builder:(context, state) => Scaffold(
+        listener: (BuildContext context,AppStates state) {},
+        builder:(BuildContext context,AppStates state) => Scaffold(
           key: ScaffoldKey,
           appBar: AppBar(
             leading: Icon(
               Icons.menu,
             ),
             title: Text(
-              cubit.titles[cubit.CurrentIndex],
+              AppCubit.get(context).titles[AppCubit.get(context).CurrentIndex],
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
@@ -69,7 +69,7 @@ class TodoScreen extends StatelessWidget {
           ),
           body: tasks.length == 0
               ? Center(child: CircularProgressIndicator())
-              : cubit.Screens[cubit.CurrentIndex],
+              : AppCubit.get(context).Screens[AppCubit.get(context).CurrentIndex],
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               if (isBottomSheet) {
@@ -206,9 +206,10 @@ class TodoScreen extends StatelessWidget {
           ),
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
-            currentIndex: cubit.CurrentIndex,
+            currentIndex: AppCubit.get(context).CurrentIndex,
             onTap: (index) {
-              cubit.CurrentIndex = index;
+
+              AppCubit.get(context).ChangeIndex(index);
              /* setState(() {
                 CurrentIndex = index;
               });*/
