@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled/shared/Bloc/cubit.dart';
 import 'package:untitled/shared/components/constants.dart';
 import '../../shared/components/components.dart';
 
@@ -15,7 +16,7 @@ class _TodoTasksState extends State<TodoTasks> {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: ListView.separated(
-          itemBuilder: (context, index) => DefaultTaskScreen(tasks[index]),
+          itemBuilder: (context, index) => DefaultTaskScreen(AppCubit.get(context).tasks[index]),
         separatorBuilder: (context, index) => Padding(
           padding: const EdgeInsets.all(20.0),
           child: Container(
@@ -24,7 +25,7 @@ class _TodoTasksState extends State<TodoTasks> {
             color: Colors.grey[400],
           ),
         ),
-          itemCount: tasks.length),
+          itemCount: AppCubit.get(context).tasks.length),
     );
   }
 }

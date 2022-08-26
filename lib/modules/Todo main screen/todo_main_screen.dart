@@ -22,7 +22,6 @@ import '../../shared/components/constants.dart';
 
 class TodoScreen extends StatelessWidget {
 
-  Database? database;
   IconData fabIcon = Icons.add;
   var titleController = TextEditingController();
   var timeController = TextEditingController();
@@ -44,7 +43,7 @@ class TodoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //AppCubit cubit = AppCubit.get(context);
     return BlocProvider(
-      create: (BuildContext context) => AppCubit(),
+      create: (BuildContext context) => AppCubit()..CreateDatabase(),
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (BuildContext context,AppStates state) {},
         builder:(BuildContext context,AppStates state) => Scaffold(
@@ -67,14 +66,14 @@ class TodoScreen extends StatelessWidget {
               ),
             ],
           ),
-          body: tasks.length == 0
+          body: AppCubit.get(context).tasks.length == 0
               ? Center(child: CircularProgressIndicator())
               : AppCubit.get(context).Screens[AppCubit.get(context).CurrentIndex],
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               if (isBottomSheet) {
                 if (FormKey.currentState!.validate()) {
-                  InsertDatabase(
+                  /*InsertDatabase(
                     title: titleController.text,
                     time: timeController.text,
                     data: dateController.text,
@@ -84,7 +83,7 @@ class TodoScreen extends StatelessWidget {
                    /* setState(() {
                       fabIcon = Icons.add;
                     },);*/
-                  });
+                  });*/
                 }
               } else {
                 ScaffoldKey.currentState
@@ -242,54 +241,6 @@ class TodoScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void CreateDatabase() async
-  {
-    database = await openDatabase(
-      'Todo.db',
-      version: 1,
-      onCreate: (database, version) {
-        print("database created");
-        database.execute(
-            'CREATE TABLE tasks(id INTEGER PRIMARY KEY, title TEXT, time TEXT, data TEXT, status TEXT)')
-            .then((value) {
-          print("table creating");
-        },).catchError((error) {
-          print("error in table creating ${error.toString()}");
-        },);
-      },
-      onOpen: (database) {
-        GetDataFromDataBase(database).then((value) {
-          /*setState(() {
-            tasks = value;
-            print(value);
-          });*/
-        },);
-        print("database opened");
-      },
-    );
-  }
-
-  Future InsertDatabase({
-    @required String? title,
-    @required String? time,
-    @required String? data,
-  }) async
-  {
-    return await database?.transaction((txn) =>
-        txn.rawInsert(
-            'INSERT INTO tasks(title, time, data, status) VALUES("$title", "$time", "$data", "new")')
-            .then((value) {
-          print("$value successfully inserted");
-        },).catchError((error) {
-          print("error at inserted ${error.toString()}");
-        },),);
-  }
-
-  Future<List<Map>> GetDataFromDataBase(database) async
-  {
-    return await database?.rawQuery('SELECT * FROM tasks');
   }
 
 }
